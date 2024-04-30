@@ -425,9 +425,11 @@ def listUploadQueue(start='', limit=4, prefix='') -> list[UploadItemDict]:
   sorted_items = sorted(items, key=lambda x: x.path)
 
   start_index = 0
-  for idx, item in enumerate(sorted_items):
-    if start == item.path:
-      start_index = idx + 1
+  if start:
+    for idx, item in enumerate(sorted_items):
+       if start == item.path:
+         start_index = idx + 1
+         break
 
   batch = sorted_items[start_index:start_index+limit]
   filtered_items = [asdict(i) for i in batch if (i is not None) and (i.id not in cancelled_uploads)]
